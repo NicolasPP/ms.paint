@@ -7,7 +7,7 @@ color = "Black"
 tool = "line"
 rec = None
 thickness = 5
-
+circle = None
 
 # functions
 
@@ -45,12 +45,15 @@ def sunken_t(p):
     Pencil.config(relief = RAISED,bg="#A4CCCB")
     Rec.config(relief = RAISED,bg="#A4CCCB")
     brush.config(relief = RAISED,bg="#A4CCCB")
+    Circle.config(relief = RAISED,bg="#A4CCCB")
     if p == "rec":
         Rec.config(relief=SUNKEN, bg = "gray")
     elif p == "pencil":
         Pencil.config(relief = SUNKEN, bg = "gray")
     elif p == "brush":
         brush.config(relief = SUNKEN, bg = "gray")
+    elif p == "circle":
+        Circle.config(relief = SUNKEN, bg = "gray")
 
 def sunken_c(p):
     red.config(relief=RAISED)
@@ -71,12 +74,11 @@ def sunken_c(p):
     elif p == "orange":
         Orange.config(relief=SUNKEN)
 
-
 def d_rectangle(event):
     global lastx, lasty, rec
     if rec:
         draw.delete(rec)
-    oval = None
+    rec = None
     draw.create_rectangle((lastx, lasty, event.x, event.y), fill=color)
 
 
@@ -85,6 +87,19 @@ def show_rec(event):
     if rec:
         draw.delete(rec)
     rec = draw.create_rectangle((lastx, lasty, event.x, event.y), fill=color)
+
+def show_circle(event):
+    global circle
+    if circle:
+        draw.delete(circle)
+    circle = draw.create_oval((lastx, lasty, event.x, event.y), fill=color)
+
+def d_circle(event):
+    global lastx, lasty, circle
+    if rec:
+        draw.delete(rec)
+    circle = None
+    draw.create_oval((lastx, lasty, event.x, event.y), fill=color)
 
 def d_brush(event):
     global lastx, lasty, thickness
@@ -104,16 +119,21 @@ def switch_tools(t):
         draw.bind("<ButtonRelease-1>", unbind)
         draw.bind("<Button-1>", xy)
         draw.bind("<B1-Motion>", line)
-    if t == "rectangle":
+    elif t == "rectangle":
         draw.bind("<Button-1>", unbind)
         draw.bind("<B1-Motion>", show_rec)
         draw.bind("<ButtonPress-1>", xy)
         draw.bind("<ButtonRelease-1>", d_rectangle)
-    if t == "brush":
+    elif t == "brush":
         draw.bind("<ButtonPress-1>", unbind)
         draw.bind("<ButtonRelease-1>", unbind)
         draw.bind("<Button-1>", xy)
         draw.bind("<B1-Motion>", d_brush)
+    elif t == "circle":
+        draw.bind("<Button-1>", unbind)
+        draw.bind("<B1-Motion>", show_circle)
+        draw.bind("<ButtonPress-1>", xy)
+        draw.bind("<ButtonRelease-1>", d_circle)
 
 
 def unbind(event):
@@ -145,6 +165,8 @@ brush = Button(color_label, bg = "#A4CCCB", text = "brush", command = lambda: [s
 thick = Button(color_label,text = "3",bg = "#A4CCCB",command = lambda : [c_thick("15"),sunken_th("thick")])
 medium = Button(color_label,text = "2",bg = "#A4CCCB",command = lambda : [c_thick("10"),sunken_th("medium")])
 thin = Button(color_label, text = "1",bg = "gray", relief = SUNKEN, command = lambda : [c_thick("5"),sunken_th("thin")])
+Circle = Button(color_label, bg="#A4CCCB", text="circle", command=lambda: [switch_tools("circle"),sunken_t("circle")])
+
 
 # placement
 color_label.grid(row=0, column=0, rowspan=10, columnspan=3,sticky=(N, E, S, W,))
@@ -153,11 +175,12 @@ tool_label.grid(row=0, column=10, rowspan=10, sticky=(N, W,))
 t_label.grid(row=3, column=0, columnspan=3, sticky=(N, W, S, E))
 Pencil.grid(row=4, column=0, columnspan=3, sticky=(N, W, S, E))
 Rec.grid(row=5, column=0, columnspan=3, sticky=(N, W, S, E))
-brush.grid(row=6, column=0, columnspan=3, sticky=(N, W, S, E))
+Circle.grid(row=6, column=0, columnspan=3, sticky=(N, W, S, E))
+brush.grid(row=7, column=0, columnspan=3, sticky=(N, W, S, E))
 erase.grid(row=9, column=0, columnspan=3, sticky=( W, S, E))
-thick.grid(row=7, column=2, sticky=(W, E), columnspan=1, rowspan=1)
-medium.grid(row=7, column=1, sticky=(W, E), columnspan=1, rowspan=1)
-thin.grid(row=7, column=0, sticky=(W, E), columnspan=1, rowspan=1)
+thick.grid(row=8, column=2, sticky=(W, E), columnspan=1, rowspan=1)
+medium.grid(row=8, column=1, sticky=(W, E), columnspan=1, rowspan=1)
+thin.grid(row=8, column=0, sticky=(W, E), columnspan=1, rowspan=1)
 
 
 red.grid(row=1, column=0, sticky=(W, E), columnspan=1, rowspan=1)
