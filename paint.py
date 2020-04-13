@@ -142,9 +142,9 @@ erase = Button(paint, bg="#A4CCCB", text="Clear all", command=lambda: clear("all
 Pencil = Button(color_label, bg="gray", text="Line", relief=SUNKEN,command=lambda: [switch_tools("line"),sunken_t("pencil")])
 Rec = Button(color_label, bg="#A4CCCB", text="Rectangle", command=lambda: [switch_tools("rectangle"),sunken_t("rec")])
 brush = Button(color_label, bg = "#A4CCCB", text = "brush", command = lambda: [switch_tools("brush"),sunken_t("brush")])
-thick = Button(color_label,text = "+++",bg = "#A4CCCB",command = lambda : [c_thick("15"),sunken_th("thick")])
-medium = Button(color_label,text = "++",bg = "#A4CCCB",command = lambda : [c_thick("10"),sunken_th("medium")])
-thin = Button(color_label, text = "+",bg = "gray", relief = SUNKEN, command = lambda : [c_thick("5"),sunken_th("thin")])
+thick = Button(color_label,text = "3",bg = "#A4CCCB",command = lambda : [c_thick("15"),sunken_th("thick")])
+medium = Button(color_label,text = "2",bg = "#A4CCCB",command = lambda : [c_thick("10"),sunken_th("medium")])
+thin = Button(color_label, text = "1",bg = "gray", relief = SUNKEN, command = lambda : [c_thick("5"),sunken_th("thin")])
 
 # placement
 color_label.grid(row=0, column=0, rowspan=10, columnspan=3,sticky=(N, E, S, W,))
